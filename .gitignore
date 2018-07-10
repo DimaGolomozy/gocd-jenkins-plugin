@@ -1,0 +1,19 @@
+
+# Eclipse #
+##########
+.classpath
+.project
+.settings/
+
+# IntelliJ #
+###########
+.idea/
+out/
+*.ipr
+*.iws
+*.iml
+
+# App #
+######
+target/
+dist/
