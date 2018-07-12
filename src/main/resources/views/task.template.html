@@ -1,0 +1,14 @@
+<div class="form_item_block">
+    <label>URL:<span class="asterisk">*</span></label>
+        <input type="url" ng-model="Url" ng-required="true">
+    </input>
+    <span class="form_error" ng-show="GOINPUTNAME[Url].$error.url">Incorrect url format.</span>
+    <span class="form_error" ng-show="GOINPUTNAME[Url].$error.server">{{ GOINPUTNAME[Url].$error.server }}</span>
+</div>
+<div class="form_item_block">
+    <label>Token:<span class="asterisk">*</span></label>
+    <input type="url" ng-model="Url" ng-required="true">
+    </input>
+    <span class="form_error" ng-show="GOINPUTNAME[Url].$error.token">Incorrect token format.</span>
+    <span class="form_error" ng-show="GOINPUTNAME[Url].$error.token">{{ GOINPUTNAME[Url].$error.token }}</span>
+</div>

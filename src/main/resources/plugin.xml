@@ -21,7 +21,7 @@
         <version>PLUGIN_VERSION_NUMBER</version>
         <target-go-version>GO_TARGET_VERSION_NUMBER</target-go-version>
         <description>
-            Jenkins plugin that supports Triggering jenkins jobs
+            Jenkins plugin that supports starting jenkins jobs
         </description>
         <vendor>
             <name>Dima Golomozy</name>
