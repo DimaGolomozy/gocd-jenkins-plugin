@@ -1,6 +1,11 @@
 package com.dg.gocd.jenkins;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.dg.gocd.jenkins.Utils.getValueOrEmpty;
+
 
 /**
  * @author dima.golomozy
@@ -12,13 +17,9 @@ public class Config {
     private final String url;
     private final String token;
 
-    public Config(Map config) {
-        this.url = getValue(config, URL_PROPERTY);
-        this.token = getValue(config, TOKEN_PROPERTY);
-    }
-
-    private String getValue(Map config, String property) {
-        return (String) ((Map) config.get(property)).get("value");
+    private Config(String url, String token) {
+        this.url = url;
+        this.token = token;
     }
 
     public String getUrl() {
@@ -27,5 +28,23 @@ public class Config {
 
     public String getToken() {
         return token;
+    }
+
+    public static Map<String, String> validateConfig(Map configMap) {
+        return Collections.emptyMap();
+    }
+
+    public static Config fromMap(Map configMap) {
+        return new Config(
+            getValueOrEmpty(configMap, URL_PROPERTY),
+            getValueOrEmpty(configMap, TOKEN_PROPERTY)
+        );
+    }
+
+    public static Map<String, Object> toMap() {
+        final Map<String, Object> configMap = new HashMap<>();
+        configMap.put(URL_PROPERTY, Utils.createField("url", true, false, "0"));
+        configMap.put(TOKEN_PROPERTY, Utils.createField("token", true, true, "1"));
+        return configMap;
     }
 }

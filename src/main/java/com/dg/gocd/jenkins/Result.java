@@ -26,7 +26,7 @@ public class Result {
 
     public Map toMap() {
         final HashMap result = new HashMap();
-        result.put("success", success);
+        result.put("successResponse", success);
         result.put("message", message);
         result.put("exception", exception);
         return result;
