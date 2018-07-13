@@ -12,6 +12,9 @@ public final class PluginSettings {
         return instance;
     }
 
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+
     private Map<String, String> settings = Collections.emptyMap();
 
     private PluginSettings() {
