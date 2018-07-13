@@ -1,10 +1,12 @@
 package com.dg.gocd.jenkins;
 
+import com.dg.gocd.utiils.Utils;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dg.gocd.jenkins.Utils.getValueOrEmpty;
+import static com.dg.gocd.utiils.Utils.getValueOrEmpty;
 
 
 /**
