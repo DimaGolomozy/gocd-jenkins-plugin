@@ -1,6 +1,7 @@
 package com.dg.gocd.jenkins.handlers;
 
 import com.dg.gocd.jenkins.Config;
+import com.dg.gocd.jenkins.PluginSettings;
 import com.dg.gocd.jenkins.Result;
 import com.dg.gocd.jenkins.Utils;
 import com.thoughtworks.go.plugin.api.logging.Logger;
@@ -19,6 +20,16 @@ import static java.util.Collections.singletonMap;
  */
 public class PluginTaskHandler {
     private static final Logger logger = Logger.getLoggerFor(PluginTaskHandler.class);
+
+    private final PluginSettings settings;
+
+    public PluginTaskHandler() {
+        this(PluginSettings.getInstance());
+    }
+
+    PluginTaskHandler(PluginSettings settings) {
+        this.settings = settings;
+    }
 
     public GoPluginApiResponse handleTaskView() {
         Map<String, Object> view = new HashMap<>();

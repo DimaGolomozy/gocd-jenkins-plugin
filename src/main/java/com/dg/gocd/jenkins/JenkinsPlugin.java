@@ -21,14 +21,16 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     private static final Logger logger = Logger.getLoggerFor(JenkinsPlugin.class);
     private static final GoPluginIdentifier GO_PLUGIN_IDENTIFIER = new GoPluginIdentifier("task", Collections.singletonList("1.0"));
 
+    private final PluginSettings settings;
     private final PluginTaskHandler taskHandler;
     private final PluginSettingsHandler settingsHandler;
 
     public JenkinsPlugin() {
-        this(new PluginTaskHandler(), new PluginSettingsHandler());
+        this(PluginSettings.getInstance(), new PluginTaskHandler(), new PluginSettingsHandler());
     }
 
-    JenkinsPlugin(PluginTaskHandler taskHandler, PluginSettingsHandler settingsHandler) {
+    JenkinsPlugin(PluginSettings settings, PluginTaskHandler taskHandler, PluginSettingsHandler settingsHandler) {
+        this.settings = settings;
         this.taskHandler = taskHandler;
         this.settingsHandler = settingsHandler;
     }
