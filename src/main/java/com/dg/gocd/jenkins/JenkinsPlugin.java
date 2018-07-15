@@ -2,7 +2,7 @@ package com.dg.gocd.jenkins;
 
 import com.dg.gocd.RequestName;
 import com.dg.gocd.jenkins.handlers.PluginSettingsHandler;
-import com.dg.gocd.jenkins.handlers.PluginTaskHandler;
+import com.dg.gocd.jenkins.task.TaskHandler;
 import com.thoughtworks.go.plugin.api.AbstractGoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
 import com.thoughtworks.go.plugin.api.annotation.Extension;
@@ -22,14 +22,14 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     private static final GoPluginIdentifier GO_PLUGIN_IDENTIFIER = new GoPluginIdentifier("task", Collections.singletonList("1.0"));
 
     private final PluginSettings settings;
-    private final PluginTaskHandler taskHandler;
+    private final TaskHandler taskHandler;
     private final PluginSettingsHandler settingsHandler;
 
     public JenkinsPlugin() {
-        this(PluginSettings.getInstance(), new PluginTaskHandler(), new PluginSettingsHandler());
+        this(PluginSettings.getInstance(), new TaskHandler(), new PluginSettingsHandler());
     }
 
-    JenkinsPlugin(PluginSettings settings, PluginTaskHandler taskHandler, PluginSettingsHandler settingsHandler) {
+    JenkinsPlugin(PluginSettings settings, TaskHandler taskHandler, PluginSettingsHandler settingsHandler) {
         this.settings = settings;
         this.taskHandler = taskHandler;
         this.settingsHandler = settingsHandler;
