@@ -1,12 +1,11 @@
 package com.dg.gocd.jenkins.task;
 
 import com.dg.gocd.jenkins.settings.PluginSettings;
-import com.thoughtworks.go.plugin.api.request.DefaultGoPluginApiRequest;
-import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.junit.Test;
 
 import static com.dg.gocd.TestUtils.assertSuccessResponse;
+import static com.dg.gocd.TestUtils.emptyRequest;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -25,17 +24,13 @@ public class TaskHandlerTest {
 
     @Test
     public void handleTaskExecution() {
-        GoPluginApiRequest request = new DefaultGoPluginApiRequest("", "", "");
-
-        GoPluginApiResponse actual = onTest.handleTaskExecution(request);
+        GoPluginApiResponse actual = onTest.handleTaskExecution(emptyRequest());
         assertSuccessResponse(actual);
     }
 
     @Test
     public void handleValidation() {
-        GoPluginApiRequest request = new DefaultGoPluginApiRequest("", "", "");
-
-        GoPluginApiResponse actual = onTest.handleValidation(request);
+        GoPluginApiResponse actual = onTest.handleValidation(emptyRequest());
         assertSuccessResponse(actual);
     }
 

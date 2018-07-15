@@ -1,5 +1,7 @@
 package com.dg.gocd;
 
+import com.thoughtworks.go.plugin.api.request.DefaultGoPluginApiRequest;
+import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
 import static com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse.*;
@@ -20,5 +22,13 @@ public class TestUtils {
 
     public static void assertBadRequestResponse(GoPluginApiResponse response) {
         assertEquals(BAD_REQUEST, response.responseCode());
+    }
+
+    public static GoPluginApiRequest emptyRequest() {
+        return newRequest("", "", "");
+    }
+
+    public static GoPluginApiRequest newRequest(String extension, String extensionVersion, String requestName) {
+        return new DefaultGoPluginApiRequest(extension, extensionVersion, requestName);
     }
 }
