@@ -1,6 +1,6 @@
 package com.dg.gocd.jenkins.task;
 
-import com.dg.gocd.jenkins.PluginSettings;
+import com.dg.gocd.jenkins.settings.PluginSettings;
 import com.dg.gocd.jenkins.Result;
 import com.dg.gocd.utiils.Utils;
 import com.thoughtworks.go.plugin.api.logging.Logger;
@@ -24,14 +24,14 @@ public class TaskHandler {
     private static final String URL_PROPERTY = "url";
     private static final String TOKEN_PROPERTY = "token";
 
-    private final PluginSettings settings;
+    private final PluginSettings pluginSettings;
 
     public TaskHandler() {
         this(PluginSettings.getInstance());
     }
 
-    TaskHandler(PluginSettings settings) {
-        this.settings = settings;
+    TaskHandler(PluginSettings pluginSettings) {
+        this.pluginSettings = pluginSettings;
     }
 
     public GoPluginApiResponse handleTaskView() {

@@ -1,4 +1,4 @@
-package com.dg.gocd.jenkins;
+package com.dg.gocd.jenkins.settings;
 
 import java.util.Collections;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class PluginSettings {
     private PluginSettings() {
     }
 
-    public void setSettings(Map<String, String> newSettings) {
+    void setSettings(Map<String, String> newSettings) {
         this.settings = Collections.unmodifiableMap(newSettings);
     }
 

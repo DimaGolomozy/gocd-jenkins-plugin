@@ -1,6 +1,6 @@
 package com.dg.gocd.jenkins.task;
 
-import com.dg.gocd.jenkins.PluginSettings;
+import com.dg.gocd.jenkins.settings.PluginSettings;
 import com.thoughtworks.go.plugin.api.request.DefaultGoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
@@ -14,8 +14,8 @@ import static org.mockito.Mockito.mock;
  */
 public class TaskHandlerTest {
 
-    private final PluginSettings settings = mock(PluginSettings.class);
-    private final TaskHandler onTest = new TaskHandler(settings);
+    private final PluginSettings pluginSettings = mock(PluginSettings.class);
+    private final TaskHandler onTest = new TaskHandler(pluginSettings);
 
     @Test
     public void handleTaskView() {
