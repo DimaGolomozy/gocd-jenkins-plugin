@@ -25,10 +25,10 @@ public class TestUtils {
     }
 
     public static GoPluginApiRequest emptyRequest() {
-        return newRequest("", "", "");
+        return newRequest("");
     }
 
-    public static GoPluginApiRequest newRequest(String extension, String extensionVersion, String requestName) {
-        return new DefaultGoPluginApiRequest(extension, extensionVersion, requestName);
+    public static GoPluginApiRequest newRequest(String requestName) {
+        return new DefaultGoPluginApiRequest("", "", requestName);
     }
 }
