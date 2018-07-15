@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author dima.golomozy
  */
-public final class PluginSettings {
+public class PluginSettings {
     private static PluginSettings instance = new PluginSettings();
     public static PluginSettings getInstance() {
         return instance;
