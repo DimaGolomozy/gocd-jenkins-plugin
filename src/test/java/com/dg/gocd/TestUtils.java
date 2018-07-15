@@ -1,4 +1,4 @@
-package com.dg.gocd.jenkins;
+package com.dg.gocd;
 
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 

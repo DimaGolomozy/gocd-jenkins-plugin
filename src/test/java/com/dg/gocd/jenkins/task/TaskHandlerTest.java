@@ -6,7 +6,7 @@ import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.junit.Test;
 
-import static com.dg.gocd.jenkins.TestUtils.assertSuccessResponse;
+import static com.dg.gocd.TestUtils.assertSuccessResponse;
 import static org.mockito.Mockito.mock;
 
 /**
