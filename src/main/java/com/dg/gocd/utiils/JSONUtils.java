@@ -3,19 +3,18 @@ package com.dg.gocd.utiils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.Map;
-
 /**
  * @author dima.golomozy
  */
 public final class JSONUtils {
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
-    public static Map fromJSON(String json) {
-        return gson.fromJson(json, Map.class);
+    public static <T> T fromJSON(String json, Class<T> classOfT)
+    {
+        return gson.fromJson(json, classOfT);
     }
 
-    public static String toJSON(Map map) {
+    public static <T> String toJSON(T map) {
         return gson.toJson(map);
     }
 }

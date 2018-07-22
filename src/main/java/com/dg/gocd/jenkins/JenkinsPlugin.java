@@ -1,8 +1,6 @@
 package com.dg.gocd.jenkins;
 
 import com.dg.gocd.RequestName;
-import com.dg.gocd.jenkins.settings.PluginSettings;
-import com.dg.gocd.jenkins.settings.SettingsHandler;
 import com.dg.gocd.jenkins.task.TaskHandler;
 import com.thoughtworks.go.plugin.api.AbstractGoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
@@ -22,38 +20,28 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     private static final Logger logger = Logger.getLoggerFor(JenkinsPlugin.class);
     private static final GoPluginIdentifier GO_PLUGIN_IDENTIFIER = new GoPluginIdentifier("task", Collections.singletonList("1.0"));
 
-    private final PluginSettings pluginSettings;
     private final TaskHandler taskHandler;
-    private final SettingsHandler settingsHandler;
 
     public JenkinsPlugin() {
-        this(PluginSettings.getInstance(), new TaskHandler(), new SettingsHandler());
+        this(new TaskHandler());
     }
 
-    JenkinsPlugin(PluginSettings pluginSettings, TaskHandler taskHandler, SettingsHandler settingsHandler) {
-        this.pluginSettings = pluginSettings;
+    JenkinsPlugin(TaskHandler taskHandler) {
         this.taskHandler = taskHandler;
-        this.settingsHandler = settingsHandler;
     }
 
     @Override
     public GoPluginApiResponse handle(GoPluginApiRequest requestMessage) throws UnhandledRequestTypeException {
         final String requestName = requestMessage.requestName();
-        logger.debug("Got request [{}]", requestName);
+        logger.debug("Got request [{}], body: {}", requestName, requestMessage.requestBody());
         if (RequestName.TASK_CONFIGURATION.equals(requestName)) {
             return taskHandler.handleGetConfigRequest();
         } else if (RequestName.TASK_VALIDATE.equals(requestName)) {
             return taskHandler.handleValidation(requestMessage);
         } else if (RequestName.TASK_EXECUTE.equals(requestName)) {
-            return  taskHandler.handleTaskExecution(requestMessage);
+            return taskHandler.handleTaskExecution(requestMessage);
         } else if (RequestName.TASK_VIEW.equals(requestName)) {
-            return  taskHandler.handleTaskView();
-        } else if (RequestName.PLUGIN_SETTINGS_GET_VIEW.equals(requestName)) {
-            return settingsHandler.handleViewRequest();
-        } else if (RequestName.PLUGIN_SETTINGS_VALIDATE_CONFIGURATION.equals(requestName)) {
-            return settingsHandler.handleValidationRequest(requestMessage);
-        } else if (RequestName.PLUGIN_SETTINGS_GET_CONFIGURATION.equals(requestName)) {
-            return settingsHandler.handleGetConfigurationRequest(requestMessage);
+            return taskHandler.handleTaskView();
         }
 
         throw new UnhandledRequestTypeException(requestName);

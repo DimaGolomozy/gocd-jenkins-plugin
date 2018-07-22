@@ -1,20 +1,21 @@
 package com.dg.gocd.jenkins.task;
 
-import com.dg.gocd.jenkins.settings.PluginSettings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import static com.dg.gocd.TestUtils.assertSuccessResponse;
-import static com.dg.gocd.TestUtils.emptyRequest;
-import static org.mockito.Mockito.mock;
+import static com.dg.gocd.RequestName.TASK_EXECUTE;
+import static com.dg.gocd.TestUtils.*;
 
 /**
  * @author dima.golomozy
  */
 public class TaskHandlerTest {
+    private static final Gson gson = new GsonBuilder().create();
 
-    private final PluginSettings pluginSettings = mock(PluginSettings.class);
-    private final TaskHandler onTest = new TaskHandler(pluginSettings);
+    private final TaskHandler onTest = new TaskHandler();
 
     @Test
     public void handleTaskView() {
@@ -23,8 +24,9 @@ public class TaskHandlerTest {
     }
 
     @Test
+    @Ignore
     public void handleTaskExecution() {
-        GoPluginApiResponse actual = onTest.handleTaskExecution(emptyRequest());
+        GoPluginApiResponse actual = onTest.handleTaskExecution(newRequest(TASK_EXECUTE));
         assertSuccessResponse(actual);
     }
 

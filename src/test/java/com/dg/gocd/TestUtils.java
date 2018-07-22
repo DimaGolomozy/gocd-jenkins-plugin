@@ -25,10 +25,17 @@ public class TestUtils {
     }
 
     public static GoPluginApiRequest emptyRequest() {
-        return newRequest("");
+        return newRequest(null);
     }
 
     public static GoPluginApiRequest newRequest(String requestName) {
-        return new DefaultGoPluginApiRequest("", "", requestName);
+        return newRequest(requestName, null);
+    }
+
+    public static GoPluginApiRequest newRequest(String requestName, String body) {
+        DefaultGoPluginApiRequest request = new DefaultGoPluginApiRequest("", "", requestName);
+        if (body != null) request.setRequestBody(body);
+
+        return request;
     }
 }

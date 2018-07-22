@@ -20,7 +20,11 @@ public final class Utils {
     }
 
     @SuppressWarnings("unchecked")
-    public static String getValueOrEmpty(Map map, String field) {
-        return (String) ((Map) map.getOrDefault(field, emptyMap())).getOrDefault("value", "");
+    public static <T> T getValueOrDefault(Map map, String... pathToField) {
+        int i = 0;
+        for (; i < pathToField.length - 1; ++i) {
+            map = (Map) map.getOrDefault(pathToField[i], emptyMap());
+        }
+        return (T) map.get(pathToField[i]);
     }
 }

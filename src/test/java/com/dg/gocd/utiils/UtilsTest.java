@@ -25,17 +25,16 @@ public class UtilsTest {
     @Test
     public void getValueOrEmptyTest() throws Exception {
         Map<String, Object> map = singletonMap("name", singletonMap("value", "expected"));
-        String actual = Utils.getValueOrEmpty(map, "name");
+        String actual = Utils.getValueOrDefault(map, "name", "value");
         assertEquals("expected", actual);
     }
 
     @Test
-    public void getValueOrEmptyEmptyTest() throws Exception {
+    public void getValueNullTest() throws Exception {
         Map<String, Object> map = singletonMap("name", singletonMap("notValue", "expected"));
-        String actual = Utils.getValueOrEmpty(map, "name");
+        String actual = Utils.getValueOrDefault(map, "name", "value");
 
-        assertNotNull(actual);
-        assertTrue(actual.isEmpty());
+        assertNull(actual);
     }
 
 }
