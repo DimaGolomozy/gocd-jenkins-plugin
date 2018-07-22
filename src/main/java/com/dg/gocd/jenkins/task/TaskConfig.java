@@ -2,7 +2,7 @@ package com.dg.gocd.jenkins.task;
 
 import java.util.Map;
 
-import static com.dg.gocd.utiils.Utils.getValueOrDefault;
+import static com.dg.gocd.utiils.GoPluginApiUtils.getValueOrDefault;
 
 /**
  * @author dima.golomozy

@@ -1,6 +1,6 @@
 package com.dg.gocd.jenkins.task;
 
-import com.dg.gocd.utiils.Utils;
+import com.dg.gocd.utiils.GoPluginApiUtils;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -17,9 +17,9 @@ import java.util.Map;
 
 import static com.dg.gocd.jenkins.task.TaskConfig.TOKEN_PROPERTY;
 import static com.dg.gocd.jenkins.task.TaskConfig.URL_PROPERTY;
+import static com.dg.gocd.utiils.GoPluginApiUtils.errorResponse;
+import static com.dg.gocd.utiils.GoPluginApiUtils.successResponse;
 import static com.dg.gocd.utiils.JSONUtils.fromJSON;
-import static com.dg.gocd.utiils.ResponseUtils.errorResponse;
-import static com.dg.gocd.utiils.ResponseUtils.successResponse;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
@@ -64,7 +64,7 @@ public class TaskHandler {
 //        } catch (UnirestException ue) {
 //            String errorMessage = "Failed with request: " + ue.getMessage();
 //            logger.error(errorMessage, ue);
-//            return ResponseUtils.errorResponse(Collections.singletonMap("exception", errorMessage));
+//            return GoPluginApiUtils.errorResponse(Collections.singletonMap("exception", errorMessage));
 //        }
         return successResponse(new TaskResult(true, "Hello").toMap());
     }
@@ -79,8 +79,8 @@ public class TaskHandler {
 
     public GoPluginApiResponse handleGetConfigRequest() {
         final Map<String, Object> configMap = new HashMap<>();
-        configMap.put(URL_PROPERTY, Utils.createField(URL_PROPERTY, false, false, "0"));
-        configMap.put(TOKEN_PROPERTY, Utils.createField(TOKEN_PROPERTY, false, true, "1"));
+        configMap.put(URL_PROPERTY, GoPluginApiUtils.createField(URL_PROPERTY, false, false, "0"));
+        configMap.put(TOKEN_PROPERTY, GoPluginApiUtils.createField(TOKEN_PROPERTY, false, true, "1"));
         return successResponse(configMap);
     }
 }
