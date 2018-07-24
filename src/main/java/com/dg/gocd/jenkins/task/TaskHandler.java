@@ -39,15 +39,15 @@ public class TaskHandler {
     }
 
     public GoPluginApiResponse handleTaskExecution(GoPluginApiRequest requestMessage) {
+        // TODO: 24/07/18 dima.golomozy - Remove this console
         JobConsoleLogger console = JobConsoleLogger.getConsoleLogger();
-
         console.printLine("Got request: " + requestMessage.requestBody());
-        Map request = fromJSON(requestMessage.requestBody(), Map.class);
-        TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
-        TaskContext taskContext = new TaskContext((Map) request.get("context"));
-
-        TaskExecutor taskExecutor = new TaskExecutor();
         try {
+            Map request = fromJSON(requestMessage.requestBody(), Map.class);
+            TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
+            TaskContext taskContext = new TaskContext((Map) request.get("context"));
+
+            TaskExecutor taskExecutor = new TaskExecutor();
             taskExecutor.execute();
         } catch (Exception e) {
             String errorMessage = "Failed executing task: " + e.getMessage();
