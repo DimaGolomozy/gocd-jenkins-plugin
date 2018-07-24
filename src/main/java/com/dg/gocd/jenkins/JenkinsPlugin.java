@@ -33,7 +33,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     @Override
     public GoPluginApiResponse handle(GoPluginApiRequest requestMessage) throws UnhandledRequestTypeException {
         final String requestName = requestMessage.requestName();
-        logger.debug("Got request [{}], body: {}", requestName, requestMessage.requestBody());
+        logger.info("Got request [{}], body: {}", requestName, requestMessage.requestBody());
         if (RequestName.TASK_CONFIGURATION.equals(requestName)) {
             return taskHandler.handleGetConfigRequest();
         } else if (RequestName.TASK_VALIDATE.equals(requestName)) {

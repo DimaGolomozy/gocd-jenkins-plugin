@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
  * @author dima.golomozy
  */
 public final class JSONUtils {
+    // TODO: 24/07/18 dima.golomozy - move the ObjectMapper
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
     public static <T> T fromJSON(String json, Class<T> classOfT)

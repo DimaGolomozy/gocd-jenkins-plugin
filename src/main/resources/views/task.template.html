@@ -1,10 +1,25 @@
 <div class="form_item_block">
-    <label>URL:</label>
-    <input type="text" ng-model="url" ng-required="true"/>
+    <label>Jenkins URL<span class="asterisk">*</span></label>
+    <input type="text" ng-model="url" style="width:500px;"/>
     <span class="form_error" ng-show="GOINPUTNAME[url].$error.server">{{ GOINPUTNAME[url].$error.server }}</span>
 </div>
 <div class="form_item_block">
-    <label>Token:</label>
-    <input type="text" ng-model="token" ng-required="true"/>
-    <span class="form_error" ng-show="GOINPUTNAME[token].$error.server">{{ GOINPUTNAME[url].$error.server }}</span>
+    <label>Job name<span class="asterisk">*</span></label>
+    <input type="text" ng-model="job" style="width:500px;"/>
+    <span class="form_error" ng-show="GOINPUTNAME[job].$error.server">{{ GOINPUTNAME[job].$error.server }}</span>
+</div>
+<div class="form_item_block">
+    <label>Username<span class="asterisk">*</span></label>
+    <input type="text" ng-model="username" style="width:500px;"/>
+    <span class="form_error" ng-show="GOINPUTNAME[username].$error.server">{{ GOINPUTNAME[username].$error.server }}</span>
+</div>
+<div class="form_item_block">
+    <label>Password<span class="asterisk">*</span></label>
+    <input type="text" ng-model="password" style="width:500px;"/>
+    <span class="form_error" ng-show="GOINPUTNAME[password].$error.server">{{ GOINPUTNAME[password].$error.server }}</span>
+</div>
+<div class="form_item_block">
+    <label>Params</label>
+    <textarea ng-model="params" style="width:500px;"></textarea>
+    <span class="form_error" ng-show="GOINPUTNAME[params].$error.server">{{ GOINPUTNAME[params].$error.server }}</span>
 </div>

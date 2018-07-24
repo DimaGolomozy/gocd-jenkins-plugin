@@ -1,8 +1,8 @@
 package com.dg.gocd.jenkins.task;
 
-import com.dg.gocd.utiils.Utils;
-
 import java.util.Map;
+
+import static com.dg.gocd.utiils.GoPluginApiUtils.getValueOrDefault;
 
 /**
  * @author dima.golomozy
@@ -13,8 +13,8 @@ public class TaskContext {
 
     public TaskContext(Map context) {
         this(
-            Utils.getValueOrDefault(context, "environmentVariables"),
-            Utils.getValueOrDefault(context, "workingDirectory")
+            getValueOrDefault(context, "environmentVariables"),
+            getValueOrDefault(context, "workingDirectory")
         );
     }
 
