@@ -1,22 +1,17 @@
 package com.dg.gocd.jenkins.task;
 
 import com.dg.gocd.utiils.GoPluginApiUtils;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequest;
-import com.mashape.unirest.request.HttpRequestWithBody;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.task.JobConsoleLogger;
 import org.apache.commons.io.IOUtils;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dg.gocd.jenkins.task.TaskConfig.TOKEN_PROPERTY;
-import static com.dg.gocd.jenkins.task.TaskConfig.URL_PROPERTY;
+import static com.dg.gocd.jenkins.task.TaskConfig.*;
 import static com.dg.gocd.utiils.GoPluginApiUtils.errorResponse;
 import static com.dg.gocd.utiils.GoPluginApiUtils.successResponse;
 import static com.dg.gocd.utiils.JSONUtils.fromJSON;
@@ -49,38 +44,34 @@ public class TaskHandler {
         console.printLine("Got request: " + requestMessage.requestBody());
         Map request = fromJSON(requestMessage.requestBody(), Map.class);
         TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
-//        TaskContext taskContext = new TaskContext((Map) request.get("context"));
+        TaskContext taskContext = new TaskContext((Map) request.get("context"));
 
         console.printLine("Executing request to url: " + taskConfig.getUrl() + " with token: "  + taskConfig.getToken());
-        HttpRequestWithBody httpRequest = Unirest.post(taskConfig.getUrl()).queryString("token", taskConfig.getToken());
-        console.printLine("HttpRequest: " + httpRequest.toString());
+        TaskExecutor taskExecutor = new TaskExecutor();
 
-        return sendAndWait(httpRequest);
-    }
+        try {
+            taskExecutor.execute();
+        } catch (Exception e) {
+            String errorMessage = "Failed executing task: " + e.getMessage();
+            logger.error(errorMessage, e);
+            return errorResponse(Collections.singletonMap("exception", errorMessage));
+        }
 
-    private GoPluginApiResponse sendAndWait(HttpRequestWithBody httpRequest) {
-//        try {
-//            HttpResponse<Map> httpResponse = sendRequest(httpRequest);
-//        } catch (UnirestException ue) {
-//            String errorMessage = "Failed with request: " + ue.getMessage();
-//            logger.error(errorMessage, ue);
-//            return GoPluginApiUtils.errorResponse(Collections.singletonMap("exception", errorMessage));
-//        }
         return successResponse(new TaskResult(true, "Hello").toMap());
     }
 
-    HttpResponse<Map> sendRequest(HttpRequest httpRequest) throws UnirestException {
-        return httpRequest.asObject(Map.class);
-    }
-
     public GoPluginApiResponse handleValidation(GoPluginApiRequest requestMessage) {
+        // TODO: 24/07/18 dima.golomozy - Check params in the right syntax
         return successResponse(singletonMap("errors", emptyMap()));
     }
 
     public GoPluginApiResponse handleGetConfigRequest() {
         final Map<String, Object> configMap = new HashMap<>();
-        configMap.put(URL_PROPERTY, GoPluginApiUtils.createField(URL_PROPERTY, false, false, "0"));
+        configMap.put(URL_PROPERTY, GoPluginApiUtils.createField(URL_PROPERTY, true, false, "0"));
         configMap.put(TOKEN_PROPERTY, GoPluginApiUtils.createField(TOKEN_PROPERTY, false, true, "1"));
+        configMap.put(USERNAME_PROPERTY, GoPluginApiUtils.createField(USERNAME_PROPERTY, false, false, "2"));
+        configMap.put(PASSWORD_PROPERTY, GoPluginApiUtils.createField(PASSWORD_PROPERTY, false, true, "3"));
+        configMap.put(PARAMS_PROPERTY, GoPluginApiUtils.createField(PARAMS_PROPERTY, false, false, "4"));
         return successResponse(configMap);
     }
 }
