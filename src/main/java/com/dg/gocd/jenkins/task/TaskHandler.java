@@ -68,7 +68,7 @@ public class TaskHandler {
         configMap.put(URL_PROPERTY, GoPluginApiUtils.createField(URL_PROPERTY, true, false, "0"));
         configMap.put(JOB_PROPERTY, GoPluginApiUtils.createField(JOB_PROPERTY, true, false, "1"));
         configMap.put(USERNAME_PROPERTY, GoPluginApiUtils.createField(USERNAME_PROPERTY, true, false, "2"));
-        configMap.put(PASSWORD_PROPERTY, GoPluginApiUtils.createField(PASSWORD_PROPERTY, true, true, "3"));
+        configMap.put(PASSWORD_PROPERTY, GoPluginApiUtils.createField(PASSWORD_PROPERTY, false, true, "3"));
         configMap.put(PARAMS_PROPERTY, GoPluginApiUtils.createField(PARAMS_PROPERTY, false, false, "4"));
         return successResponse(configMap);
     }
