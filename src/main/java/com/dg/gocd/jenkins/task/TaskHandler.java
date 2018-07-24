@@ -4,7 +4,6 @@ import com.dg.gocd.utiils.GoPluginApiUtils;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
-import com.thoughtworks.go.plugin.api.task.JobConsoleLogger;
 import org.apache.commons.io.IOUtils;
 
 import java.util.Collections;
@@ -39,25 +38,17 @@ public class TaskHandler {
     }
 
     public GoPluginApiResponse handleTaskExecution(GoPluginApiRequest requestMessage) {
-        JobConsoleLogger console = JobConsoleLogger.getConsoleLogger();
-
-        console.printLine("Got request: " + requestMessage.requestBody());
         Map request = fromJSON(requestMessage.requestBody(), Map.class);
         TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
         TaskContext taskContext = new TaskContext((Map) request.get("context"));
 
-        console.printLine("Executing request to url: " + taskConfig.getUrl() + " with token: "  + taskConfig.getToken());
-        TaskExecutor taskExecutor = new TaskExecutor();
-
         try {
-            taskExecutor.execute();
+            return new TaskExecutor(taskConfig, taskContext).execute();
         } catch (Exception e) {
             String errorMessage = "Failed executing task: " + e.getMessage();
             logger.error(errorMessage, e);
             return errorResponse(Collections.singletonMap("exception", errorMessage));
         }
-
-        return successResponse(new TaskResult(true, "Hello").toMap());
     }
 
     public GoPluginApiResponse handleValidation(GoPluginApiRequest requestMessage) {
