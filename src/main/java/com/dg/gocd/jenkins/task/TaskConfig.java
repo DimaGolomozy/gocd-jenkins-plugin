@@ -11,13 +11,13 @@ import static com.dg.gocd.utiils.GoPluginApiUtils.getValueOrDefault;
  */
 public class TaskConfig {
     static final String URL_PROPERTY = "url";
-    static final String TOKEN_PROPERTY = "token";
+    static final String JOB_PROPERTY = "job";
     static final String USERNAME_PROPERTY = "username";
     static final String PASSWORD_PROPERTY = "password";
     static final String PARAMS_PROPERTY = "params";
 
     private final String url;
-    private final String token;
+    private final String job;
     private final String username;
     private final String password;
     private final Map<String, String> params;
@@ -25,17 +25,17 @@ public class TaskConfig {
     public TaskConfig(Map config) {
         this(
             getValueOrDefault(config, URL_PROPERTY, "value"),
-            getValueOrDefault(config, TOKEN_PROPERTY, "value"),
+            getValueOrDefault(config, JOB_PROPERTY, "value"),
             getValueOrDefault(config, USERNAME_PROPERTY, "value"),
             getValueOrDefault(config, PASSWORD_PROPERTY, "value"),
-            Arrays.stream(((String) getValueOrDefault(config, PARAMS_PROPERTY, "value")).split(","))
-                .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0], s -> s[1]))
+            Arrays.stream(((String) getValueOrDefault(config, PARAMS_PROPERTY, "value")).split("\\r?\\n"))
+                .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
         );
     }
 
-    TaskConfig(String url, String token, String username, String password, Map<String, String> params) {
+    TaskConfig(String url, String job, String username, String password, Map<String, String> params) {
         this.url = url;
-        this.token = token;
+        this.job = job;
         this.username = username;
         this.password = password;
         this.params = params;
@@ -45,8 +45,8 @@ public class TaskConfig {
         return url;
     }
 
-    public String getToken() {
-        return token;
+    public String getJob() {
+        return job;
     }
 
     public String getUsername() {

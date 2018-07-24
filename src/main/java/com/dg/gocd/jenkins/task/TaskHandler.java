@@ -46,9 +46,7 @@ public class TaskHandler {
         TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
         TaskContext taskContext = new TaskContext((Map) request.get("context"));
 
-        console.printLine("Executing request to url: " + taskConfig.getUrl() + " with token: "  + taskConfig.getToken());
         TaskExecutor taskExecutor = new TaskExecutor();
-
         try {
             taskExecutor.execute();
         } catch (Exception e) {
@@ -67,8 +65,8 @@ public class TaskHandler {
 
     public GoPluginApiResponse handleGetConfigRequest() {
         final Map<String, Object> configMap = new HashMap<>();
-        configMap.put(URL_PROPERTY, GoPluginApiUtils.createField(URL_PROPERTY, true, false, "0"));
-        configMap.put(TOKEN_PROPERTY, GoPluginApiUtils.createField(TOKEN_PROPERTY, false, true, "1"));
+        configMap.put(URL_PROPERTY, GoPluginApiUtils.createField(URL_PROPERTY, false, false, "0"));
+        configMap.put(JOB_PROPERTY, GoPluginApiUtils.createField(JOB_PROPERTY, false, false, "1"));
         configMap.put(USERNAME_PROPERTY, GoPluginApiUtils.createField(USERNAME_PROPERTY, false, false, "2"));
         configMap.put(PASSWORD_PROPERTY, GoPluginApiUtils.createField(PASSWORD_PROPERTY, false, true, "3"));
         configMap.put(PARAMS_PROPERTY, GoPluginApiUtils.createField(PARAMS_PROPERTY, false, false, "4"));
