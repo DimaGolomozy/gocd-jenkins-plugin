@@ -1,6 +1,6 @@
 package com.dg.gocd.jenkins.task;
 
-import com.dg.gocd.utiils.JenkinsServerFactory;
+import com.dg.gocd.jenkins.factories.JenkinsServerFactory;
 import com.google.common.annotations.VisibleForTesting;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Build;

@@ -4,7 +4,7 @@ import com.dg.gocd.RequestName;
 import com.dg.gocd.jenkins.task.TaskConfig;
 import com.dg.gocd.jenkins.task.TaskContext;
 import com.dg.gocd.jenkins.task.TaskResult;
-import com.dg.gocd.utiils.TaskExecutorFactory;
+import com.dg.gocd.jenkins.factories.TaskExecutorFactory;
 import com.thoughtworks.go.plugin.api.AbstractGoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
 import com.thoughtworks.go.plugin.api.annotation.Extension;
