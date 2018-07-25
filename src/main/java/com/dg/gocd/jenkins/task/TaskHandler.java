@@ -42,20 +42,19 @@ public class TaskHandler {
         // TODO: 24/07/18 dima.golomozy - Remove this console
         JobConsoleLogger console = JobConsoleLogger.getConsoleLogger();
         console.printLine("Got request: " + requestMessage.requestBody());
+
         try {
             Map request = fromJSON(requestMessage.requestBody(), Map.class);
             TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
             TaskContext taskContext = new TaskContext((Map) request.get("context"));
 
-            TaskExecutor taskExecutor = new TaskExecutor();
-            taskExecutor.execute();
+            TaskResult execute = new TaskExecutor().execute(taskConfig, taskContext);
+            return null;
         } catch (Exception e) {
             String errorMessage = "Failed executing task: " + e.getMessage();
             logger.error(errorMessage, e);
             return errorResponse(Collections.singletonMap("exception", errorMessage));
         }
-
-        return successResponse(new TaskResult(true, "Hello").toMap());
     }
 
     public GoPluginApiResponse handleValidation(GoPluginApiRequest requestMessage) {

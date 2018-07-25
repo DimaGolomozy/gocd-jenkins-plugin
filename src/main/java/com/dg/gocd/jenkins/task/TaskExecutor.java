@@ -55,16 +55,17 @@ public class TaskExecutor {
         }
 
         Build build = jenkinsServer.getBuild(queueItem);
+        console.printLine("Job is in progress with id [" + build.getNumber() + "] url: " + build.getUrl());
         while (build.details().isBuilding()) {
             console.printLine("Job still running");
             Thread.sleep(10000);
         }
 
         console.printLine("Job done. Result = " + build.details().getResult());
-        console.printLine("Jenkins console output:\n" + build.details().getConsoleOutputText(0).getConsoleLog());
+        console.printLine("Jenkins console output:\n" + build.details().getConsoleOutputText());
         return new TaskResult(
                 SUCCESS.equals(build.details().getResult()),
-                "Jenkins Console log:\n" + build.details().getConsoleOutputText(0).getConsoleLog()
+                "Jenkins Console log:\n" + build.details().getConsoleOutputText()
         );
     }
 }
