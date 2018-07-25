@@ -3,8 +3,8 @@ package com.dg.gocd.jenkins;
 import com.dg.gocd.RequestName;
 import com.dg.gocd.jenkins.task.TaskConfig;
 import com.dg.gocd.jenkins.task.TaskContext;
-import com.dg.gocd.jenkins.task.TaskExecutor;
 import com.dg.gocd.jenkins.task.TaskResult;
+import com.dg.gocd.utiils.TaskExecutorFactory;
 import com.thoughtworks.go.plugin.api.AbstractGoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
 import com.thoughtworks.go.plugin.api.annotation.Extension;
@@ -31,6 +31,16 @@ import static java.util.Collections.singletonMap;
 public class JenkinsPlugin extends AbstractGoPlugin {
     private static final Logger logger = Logger.getLoggerFor(JenkinsPlugin.class);
     private static final GoPluginIdentifier GO_PLUGIN_IDENTIFIER = new GoPluginIdentifier("task", Collections.singletonList("1.0"));
+
+    private final TaskExecutorFactory taskExecutorFactory;
+
+    public JenkinsPlugin() {
+        this(TaskExecutorFactory.getFactory());
+    }
+
+    public JenkinsPlugin(TaskExecutorFactory taskExecutorFactory) {
+        this.taskExecutorFactory = taskExecutorFactory;
+    }
 
     @Override
     public GoPluginApiResponse handle(GoPluginApiRequest requestMessage) throws UnhandledRequestTypeException {
@@ -70,12 +80,14 @@ public class JenkinsPlugin extends AbstractGoPlugin {
             TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
             TaskContext taskContext = new TaskContext((Map) request.get("context"));
 
-            TaskResult execute = new TaskExecutor().execute(taskConfig, taskContext);
-            return null;
+            TaskResult taskResult = taskExecutorFactory.getTaskExecutor().execute(taskConfig, taskContext);
+            return taskResult.isSuccess()
+                ? successResponse(taskResult.toMap())
+                : errorResponse(taskResult.toMap());
         } catch (Exception e) {
-            String errorMessage = "Failed executing task: " + e.getMessage();
+            String errorMessage = "Failed task execution: " + e.getMessage();
             logger.error(errorMessage, e);
-            return errorResponse(Collections.singletonMap("exception", errorMessage));
+            return errorResponse(singletonMap("exception", errorMessage));
         }
     }
 
