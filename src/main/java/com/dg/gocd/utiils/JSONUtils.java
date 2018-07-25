@@ -11,11 +11,19 @@ import java.io.IOException;
 public final class JSONUtils {
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static <T> T fromJSON(String json, Class<T> classOfT) throws IOException {
-        return mapper.readValue(json, classOfT);
+    public static <T> T fromJSON(String json, Class<T> classOfT) {
+        try {
+            return mapper.readValue(json, classOfT);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static <T> String toJSON(T obj) throws JsonProcessingException {
-        return mapper.writeValueAsString(obj);
+    public static <T> String toJSON(T obj) {
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

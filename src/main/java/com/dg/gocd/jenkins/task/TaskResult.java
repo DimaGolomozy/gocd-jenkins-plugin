@@ -1,7 +1,5 @@
 package com.dg.gocd.jenkins.task;
 
-import com.thoughtworks.go.plugin.api.response.DefaultGoApiResponse;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,14 +22,14 @@ public class TaskResult {
     }
 
     public Map toMap() {
-        final HashMap result = new HashMap();
+        final Map<String, Object> result = new HashMap<>();
         result.put("success", success);
         result.put("message", message);
         result.put("exception", exception);
         return result;
     }
 
-    public int responseCode() {
-        return success ? DefaultGoApiResponse.SUCCESS_RESPONSE_CODE : DefaultGoApiResponse.INTERNAL_ERROR;
+    public boolean isSuccess() {
+        return success;
     }
 }
