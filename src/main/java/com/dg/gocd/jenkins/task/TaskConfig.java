@@ -10,11 +10,11 @@ import static com.dg.gocd.utiils.GoPluginApiUtils.getValueOrDefault;
  * @author dima.golomozy
  */
 public class TaskConfig {
-    static final String URL_PROPERTY = "url";
-    static final String JOB_PROPERTY = "job";
-    static final String USERNAME_PROPERTY = "username";
-    static final String PASSWORD_PROPERTY = "password";
-    static final String PARAMS_PROPERTY = "params";
+    public static final String URL_PROPERTY = "url";
+    public static final String JOB_PROPERTY = "job";
+    public static final String USERNAME_PROPERTY = "username";
+    public static final String PASSWORD_PROPERTY = "password";
+    public static final String PARAMS_PROPERTY = "params";
 
     private final String url;
     private final String job;
