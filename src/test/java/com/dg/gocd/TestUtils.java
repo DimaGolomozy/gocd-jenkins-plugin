@@ -3,6 +3,9 @@ package com.dg.gocd;
 import com.thoughtworks.go.plugin.api.request.DefaultGoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
 
 import static com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse.*;
 import static org.junit.Assert.assertEquals;
@@ -20,10 +23,6 @@ public class TestUtils {
         assertEquals(INTERNAL_ERROR, response.responseCode());
     }
 
-    public static void assertBadRequestResponse(GoPluginApiResponse response) {
-        assertEquals(BAD_REQUEST, response.responseCode());
-    }
-
     public static GoPluginApiRequest emptyRequest() {
         return newRequest(null);
     }
@@ -37,5 +36,9 @@ public class TestUtils {
         if (body != null) request.setRequestBody(body);
 
         return request;
+    }
+
+    public static String getResource(String name) throws IOException {
+        return IOUtils.toString(TestUtils.class.getClassLoader().getResourceAsStream(name), "UTF-8");
     }
 }
