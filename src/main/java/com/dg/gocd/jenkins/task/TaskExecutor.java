@@ -1,7 +1,6 @@
 package com.dg.gocd.jenkins.task;
 
 import com.dg.gocd.jenkins.factories.JenkinsServerFactory;
-import com.google.common.annotations.VisibleForTesting;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.JobWithDetails;
@@ -25,7 +24,6 @@ public class TaskExecutor {
         this(JenkinsServerFactory.getFactory(), JobConsoleLogger.getConsoleLogger());
     }
 
-    @VisibleForTesting
     TaskExecutor(JenkinsServerFactory jenkinsServerFactory, JobConsoleLogger console) {
         this.jenkinsServerFactory = jenkinsServerFactory;
         this.console = console;

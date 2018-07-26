@@ -1,11 +1,10 @@
 package com.dg.gocd.jenkins;
 
 import com.dg.gocd.RequestName;
+import com.dg.gocd.jenkins.factories.TaskExecutorFactory;
 import com.dg.gocd.jenkins.task.TaskConfig;
 import com.dg.gocd.jenkins.task.TaskContext;
 import com.dg.gocd.jenkins.task.TaskResult;
-import com.dg.gocd.jenkins.factories.TaskExecutorFactory;
-import com.google.common.annotations.VisibleForTesting;
 import com.thoughtworks.go.plugin.api.AbstractGoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
 import com.thoughtworks.go.plugin.api.annotation.Extension;
@@ -39,7 +38,6 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         this(TaskExecutorFactory.getFactory());
     }
 
-    @VisibleForTesting
     JenkinsPlugin(TaskExecutorFactory taskExecutorFactory) {
         this.taskExecutorFactory = taskExecutorFactory;
     }
