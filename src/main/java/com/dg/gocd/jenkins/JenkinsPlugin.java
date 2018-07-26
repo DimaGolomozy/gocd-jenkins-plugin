@@ -30,7 +30,6 @@ import static java.util.Collections.singletonMap;
 @Extension
 public class JenkinsPlugin extends AbstractGoPlugin {
     private static final Logger logger = Logger.getLoggerFor(JenkinsPlugin.class);
-    private static final GoPluginIdentifier GO_PLUGIN_IDENTIFIER = new GoPluginIdentifier("task", Collections.singletonList("1.0"));
 
     private final TaskExecutorFactory taskExecutorFactory;
 
@@ -107,6 +106,6 @@ public class JenkinsPlugin extends AbstractGoPlugin {
 
     @Override
     public GoPluginIdentifier pluginIdentifier() {
-        return GO_PLUGIN_IDENTIFIER;
+        return new GoPluginIdentifier("task", Collections.singletonList("1.0"));
     }
 }
