@@ -76,7 +76,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         Map request = fromJSON(requestMessage.requestBody(), Map.class);
 
         String paramsValue = getValueOrEmpty(request, PARAMS_PROPERTY);
-        if (paramsValue ==null || !PARAMS_PATTERN.matcher(paramsValue).matches()) {
+        if (!paramsValue.isEmpty() && !PARAMS_PATTERN.matcher(paramsValue).matches()) {
             errors.put(PARAMS_PROPERTY, "Params syntax is <PARAM>=<VALUE>, with COMMA or NEWLINE delimiter");
         }
 
