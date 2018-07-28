@@ -37,4 +37,12 @@ public class GoPluginApiUtilsTest {
 
         assertEquals("", actual);
     }
+
+    @Test
+    public void testReplaceWithEnv() throws Exception {
+        assertEquals("replaced", GoPluginApiUtils.replaceWithEnv("${REPLACE_ME}", singletonMap("REPLACE_ME", "replaced")));
+        assertEquals("replaced", GoPluginApiUtils.replaceWithEnv("$REPLACE_ME", singletonMap("REPLACE_ME", "replaced")));
+
+        assertEquals("REPLACE_ME", GoPluginApiUtils.replaceWithEnv("REPLACE_ME", singletonMap("REPLACE_ME", "replaced")));
+    }
 }

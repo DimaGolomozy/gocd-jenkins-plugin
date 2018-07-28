@@ -76,7 +76,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         Map request = fromJSON(requestMessage.requestBody(), Map.class);
 
         String paramsValue = getValueOrEmpty(request, PARAMS_PROPERTY);
-        if (paramsValue ==null || !PARAMS_PATTERN.matcher(paramsValue).matches()) {
+        if (!paramsValue.isEmpty() && !PARAMS_PATTERN.matcher(paramsValue).matches()) {
             errors.put(PARAMS_PROPERTY, "Params syntax is <PARAM>=<VALUE>, with COMMA or NEWLINE delimiter");
         }
 
@@ -86,8 +86,8 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     private GoPluginApiResponse handleTaskExecution(GoPluginApiRequest requestMessage) {
         try {
             Map request = fromJSON(requestMessage.requestBody(), Map.class);
-            TaskConfig taskConfig = createTaskConfig((Map) request.get("config"));
             TaskContext taskContext = createTaskContext((Map) request.get("context"));
+            TaskConfig taskConfig = createTaskConfig((Map) request.get("config"), taskContext.getEnvironmentVariables());
 
             TaskResult taskResult = taskExecutorFactory.getTaskExecutor().execute(taskConfig, taskContext);
             return taskResult.isSuccess()
@@ -107,14 +107,14 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         );
     }
 
-    private TaskConfig createTaskConfig(Map config) {
+    TaskConfig createTaskConfig(Map config, Map<String, String> environmentVariables) {
         return new TaskConfig(
-                getValueOrEmpty(config, URL_PROPERTY),
-                getValueOrEmpty(config, JOB_PROPERTY),
-                getValueOrEmpty(config, USERNAME_PROPERTY),
-                getValueOrEmpty(config, PASSWORD_PROPERTY),
-                Arrays.stream(getValueOrEmpty(config, PARAMS_PROPERTY).split("\\r?\\n"))
-                    .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
+            replaceWithEnv(getValueOrEmpty(config, URL_PROPERTY), environmentVariables),
+            replaceWithEnv(getValueOrEmpty(config, JOB_PROPERTY), environmentVariables),
+            replaceWithEnv(getValueOrEmpty(config, USERNAME_PROPERTY), environmentVariables),
+            replaceWithEnv(getValueOrEmpty(config, PASSWORD_PROPERTY), environmentVariables),
+            Arrays.stream(replaceWithEnv(getValueOrEmpty(config, PARAMS_PROPERTY), environmentVariables).split(",|\\r?\\n"))
+                .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
         );
     }
 

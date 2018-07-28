@@ -41,4 +41,15 @@ public final class GoPluginApiUtils {
     public static String getValueOrEmpty(Map map, String field) {
         return (String) ((Map) map.getOrDefault(field, emptyMap())).getOrDefault("value", "");
     }
+
+    public static String replaceWithEnv(String str, Map<String, String> env) {
+        for (Map.Entry<String, String> entry : env.entrySet()) {
+            String key = entry.getKey();
+            if (str.contains("${" + key + "}"))
+                str = str.replace("${" + key + "}", entry.getValue());
+            if (str.contains("$" + key))
+                str = str.replace("$" + key, entry.getValue());
+        }
+        return str;
+    }
 }
