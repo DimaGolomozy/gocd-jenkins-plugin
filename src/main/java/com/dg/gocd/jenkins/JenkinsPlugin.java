@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import static com.dg.gocd.jenkins.task.TaskConfig.*;
 import static com.dg.gocd.utiils.GoPluginApiUtils.*;
 import static com.dg.gocd.utiils.JSONUtils.fromJSON;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
 /**
@@ -108,12 +109,13 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     }
 
     TaskConfig createTaskConfig(Map config, Map<String, String> environmentVariables) {
+        String params = getValueOrEmpty(config, PARAMS_PROPERTY);
         return new TaskConfig(
             replaceWithEnv(getValueOrEmpty(config, URL_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, JOB_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, USERNAME_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, PASSWORD_PROPERTY), environmentVariables),
-            Arrays.stream(replaceWithEnv(getValueOrEmpty(config, PARAMS_PROPERTY), environmentVariables).split(",|\\r?\\n"))
+            params.isEmpty() ? emptyMap() : Arrays.stream(replaceWithEnv(params, environmentVariables).split(",|\\r?\\n"))
                 .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
         );
     }

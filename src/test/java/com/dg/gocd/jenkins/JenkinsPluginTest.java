@@ -99,6 +99,22 @@ public class JenkinsPluginTest {
         assertEquals("456", taskConfig.getParams().get("fofo"));
     }
 
+    @Test
+    public void testTaskConfigCreationNoRequiredFields() throws Exception {
+        Map config = (Map) gson.fromJson(getResource("task-execute-request-no-required.json"), Map.class).get("config");
+        Map<String, String> env = new HashMap<>();
+        env.put("FIRST_ENV", "first");
+        env.put("SECOND_ENV", "second");
+
+        TaskConfig taskConfig = onTest.createTaskConfig(config, env);
+
+        assertEquals("http://www.HelloWorld.com", taskConfig.getUrl());
+        assertEquals("job1", taskConfig.getJob());
+        assertEquals("user1", taskConfig.getUsername());
+        assertEquals("password1", taskConfig.getPassword());
+        assertTrue(taskConfig.getParams().isEmpty());
+    }
+
     private void setExecutorResult(boolean success) {
         when(taskExecutor.execute(any(), any())).thenReturn(new TaskResult(success, ""));
 

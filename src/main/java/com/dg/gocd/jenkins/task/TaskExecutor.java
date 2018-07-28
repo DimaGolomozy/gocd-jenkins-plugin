@@ -34,6 +34,7 @@ public class TaskExecutor {
         console.printEnvironment(taskConfig.getParams());
 
         try (JenkinsServer jenkinsServer = jenkinsServerFactory.getJenkinsServer(new URI(taskConfig.getUrl()), taskConfig.getUsername(), taskConfig.getPassword())) {
+            console.printLine("here");
             return exec(jenkinsServer, taskConfig, taskContext);
         } catch (Exception e) {
             return new TaskResult(false, "Failed executing task", e);
