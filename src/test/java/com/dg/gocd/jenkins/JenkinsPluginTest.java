@@ -1,16 +1,21 @@
 package com.dg.gocd.jenkins;
 
+import com.dg.gocd.TestUtils;
 import com.dg.gocd.jenkins.factories.TaskExecutorFactory;
 import com.dg.gocd.jenkins.task.TaskExecutor;
 import com.dg.gocd.jenkins.task.TaskResult;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static com.dg.gocd.RequestName.*;
 import static com.dg.gocd.TestUtils.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -19,6 +24,7 @@ import static org.mockito.Mockito.when;
  * @author dima.golomozy
  */
 public class JenkinsPluginTest {
+    private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
     private final TaskExecutor taskExecutor = mock(TaskExecutor.class);
     private final TaskExecutorFactory taskExecutorFactory = mock(TaskExecutorFactory.class);
@@ -37,8 +43,11 @@ public class JenkinsPluginTest {
 
     @Test
     public void testTaskValidateRequest() throws Exception {
-        GoPluginApiResponse actual = onTest.handle(newRequest(TASK_VALIDATE));
+        GoPluginApiResponse actual = onTest.handle(newRequest(TASK_VALIDATE, TestUtils.getResource("validate-request.json")));
         assertSuccessResponse(actual);
+
+        Map errors = (Map) gson.fromJson(actual.responseBody(), Map.class).get("errors");
+        assertTrue(errors.isEmpty());
     }
 
     @Test
@@ -46,16 +55,6 @@ public class JenkinsPluginTest {
         setExecutorResult(true);
 
         GoPluginApiResponse actual = onTest.handle(newRequest(TASK_EXECUTE, getResource("task-execute-request.json")));
-        assertSuccessResponse(actual);
-    }
-
-    @Test
-    @Ignore
-    // TODO: 26/07/18 dima.golomozy - enable this
-    public void testTaskExecuteRequestNoMandatoryFields() throws Exception {
-        setExecutorResult(true);
-
-        GoPluginApiResponse actual = onTest.handle(newRequest(TASK_EXECUTE, getResource("task-execute-request-no-mandatory-fields.json")));
         assertSuccessResponse(actual);
     }
 

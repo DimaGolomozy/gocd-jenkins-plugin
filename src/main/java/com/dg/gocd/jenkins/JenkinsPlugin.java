@@ -17,11 +17,11 @@ import org.apache.commons.io.IOUtils;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static com.dg.gocd.jenkins.task.TaskConfig.*;
 import static com.dg.gocd.utiils.GoPluginApiUtils.*;
 import static com.dg.gocd.utiils.JSONUtils.fromJSON;
-import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
 /**
@@ -30,6 +30,7 @@ import static java.util.Collections.singletonMap;
 @Extension
 public class JenkinsPlugin extends AbstractGoPlugin {
     private static final Logger logger = Logger.getLoggerFor(JenkinsPlugin.class);
+    private static final Pattern PARAMS_PATTERN = Pattern.compile("\\w+=(\\$(\\{\\w+}|\\w+)|\\w+)([,(\\r?\\n)]\\w+=(\\$(\\{\\w+}|\\w+)|\\w+))*");
 
     private final TaskExecutorFactory taskExecutorFactory;
 
@@ -69,8 +70,15 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     }
 
     private GoPluginApiResponse handleValidation(GoPluginApiRequest requestMessage) {
-        // TODO: 24/07/18 dima.golomozy - Check params in the right syntax
-        return successResponse(singletonMap("errors", emptyMap()));
+        Map<String, String> errors = new HashMap<>();
+        Map request = fromJSON(requestMessage.requestBody(), Map.class);
+
+        String paramsValue = getValueOrDefault2(request, PARAMS_PROPERTY);
+        if (paramsValue ==null || !PARAMS_PATTERN.matcher(paramsValue).matches()) {
+            errors.put(PARAMS_PROPERTY, "Params syntax is <PARAM>=<VALUE>, with COMMA or NEWLINE delimiter");
+        }
+
+        return successResponse(singletonMap("errors", errors));
     }
 
     private GoPluginApiResponse handleTaskExecution(GoPluginApiRequest requestMessage) {

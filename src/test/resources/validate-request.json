@@ -1,0 +1,27 @@
+{
+  "password": {
+    "secure": false,
+    "value": "12333123",
+    "required": true
+  },
+  "job": {
+    "secure": false,
+    "value": "3333",
+    "required": true
+  },
+  "params": {
+    "secure": false,
+    "value": "var=${GO_FROM_REVISION_TEST}\nvar2=blabla,var3=lol",
+    "required": false
+  },
+  "url": {
+    "secure": false,
+    "value": "asd",
+    "required": true
+  },
+  "username": {
+    "secure": false,
+    "value": "123",
+    "required": true
+  }
+}
