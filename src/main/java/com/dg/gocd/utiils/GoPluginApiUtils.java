@@ -22,12 +22,6 @@ public final class GoPluginApiUtils {
         return DefaultGoPluginApiResponse.error(toJSON(body));
     }
 
-    public static <T> GoPluginApiResponse createResponse(final int responseCode, final T body) {
-        final DefaultGoPluginApiResponse response = new DefaultGoPluginApiResponse(responseCode);
-        response.setResponseBody(toJSON(body));
-        return response;
-    }
-
     public static Map<String, Object> createField(String displayName, boolean isRequired, boolean isSecure, String displayOrder) {
         Map<String, Object> field = new HashMap<>();
         field.put("display-name", displayName);
