@@ -14,12 +14,10 @@ import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.apache.commons.io.IOUtils;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static com.dg.gocd.jenkins.task.TaskConfig.*;
 import static com.dg.gocd.utiils.GoPluginApiUtils.*;
@@ -109,15 +107,26 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     }
 
     TaskConfig createTaskConfig(Map config, Map<String, String> environmentVariables) {
-        String params = getValueOrEmpty(config, PARAMS_PROPERTY);
         return new TaskConfig(
             replaceWithEnv(getValueOrEmpty(config, URL_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, JOB_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, USERNAME_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, PASSWORD_PROPERTY), environmentVariables),
-            params.isEmpty() ? emptyMap() : Arrays.stream(replaceWithEnv(params, environmentVariables).split(",|\\r?\\n"))
-                .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
+            getParams(config, environmentVariables)
         );
+    }
+
+    private Map<String, String> getParams(Map config, Map<String, String> environmentVariables) {
+        String paramsValue = getValueOrEmpty(config, PARAMS_PROPERTY);
+        if (paramsValue.isEmpty())
+            return emptyMap();
+
+        Map<String, String> params = new HashMap<>();
+        for (String param : replaceWithEnv(paramsValue, environmentVariables).split(",|\\r?\\n")) {
+            String[] split = param.split("=");
+            params.put(split[0], split[1]);
+        }
+        return params;
     }
 
     private GoPluginApiResponse handleTaskView() {

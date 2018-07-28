@@ -24,7 +24,7 @@ public class GoPluginApiUtilsTest {
 
     @Test
     public void getValueTest() throws Exception {
-        Map<String, Object> map = singletonMap("name", singletonMap("value", "expected"));
+        Map<String, Map<String, String>> map = singletonMap("name", singletonMap("value", "expected"));
         String actual = GoPluginApiUtils.getValueOrEmpty(map, "name");
 
         assertEquals("expected", actual);
@@ -32,7 +32,7 @@ public class GoPluginApiUtilsTest {
 
     @Test
     public void getValueEmptyTest() throws Exception {
-        Map<String, Object> map = singletonMap("name", singletonMap("notValue", "expected"));
+        Map<String, Map<String, String>> map = singletonMap("name", singletonMap("notValue", "expected"));
         String actual = GoPluginApiUtils.getValueOrEmpty(map, "name");
 
         assertEquals("", actual);

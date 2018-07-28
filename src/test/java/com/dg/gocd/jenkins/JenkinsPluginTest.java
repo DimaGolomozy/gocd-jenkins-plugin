@@ -3,6 +3,7 @@ package com.dg.gocd.jenkins;
 import com.dg.gocd.TestUtils;
 import com.dg.gocd.jenkins.factories.TaskExecutorFactory;
 import com.dg.gocd.jenkins.task.TaskConfig;
+import com.dg.gocd.jenkins.task.TaskContext;
 import com.dg.gocd.jenkins.task.TaskExecutor;
 import com.dg.gocd.jenkins.task.TaskResult;
 import com.google.gson.Gson;
@@ -116,7 +117,7 @@ public class JenkinsPluginTest {
     }
 
     private void setExecutorResult(boolean success) {
-        when(taskExecutor.execute(any(), any())).thenReturn(new TaskResult(success, ""));
+        when(taskExecutor.execute((TaskConfig) any(), (TaskContext) any())).thenReturn(new TaskResult(success, ""));
 
     }
 }
