@@ -38,12 +38,7 @@ public final class GoPluginApiUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getValueOrDefault(Map map, String... pathToField) {
-        // TODO: 25/07/18 dima.golomozy - Fix finding and parsing the value
-        int i = 0;
-        for (; i < pathToField.length - 1; ++i) {
-            map = (Map) map.getOrDefault(pathToField[i], emptyMap());
-        }
-        return (T) map.get(pathToField[i]);
+    public static String getValueOrEmpty(Map map, String field) {
+        return (String) ((Map) map.getOrDefault(field, emptyMap())).getOrDefault("value", "");
     }
 }

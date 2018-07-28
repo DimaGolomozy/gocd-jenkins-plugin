@@ -6,7 +6,6 @@ import java.util.Map;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * @author dima.golomozy
@@ -24,17 +23,18 @@ public class GoPluginApiUtilsTest {
     }
 
     @Test
-    public void getValueOrEmptyTest() throws Exception {
+    public void getValueTest() throws Exception {
         Map<String, Object> map = singletonMap("name", singletonMap("value", "expected"));
-        String actual = GoPluginApiUtils.getValueOrDefault(map, "name", "value");
+        String actual = GoPluginApiUtils.getValueOrEmpty(map, "name");
+
         assertEquals("expected", actual);
     }
 
     @Test
-    public void getValueNullTest() throws Exception {
+    public void getValueEmptyTest() throws Exception {
         Map<String, Object> map = singletonMap("name", singletonMap("notValue", "expected"));
-        String actual = GoPluginApiUtils.getValueOrDefault(map, "name", "value");
+        String actual = GoPluginApiUtils.getValueOrEmpty(map, "name");
 
-        assertNull(actual);
+        assertEquals("", actual);
     }
 }

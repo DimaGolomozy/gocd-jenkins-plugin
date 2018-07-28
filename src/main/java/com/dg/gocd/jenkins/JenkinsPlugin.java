@@ -14,10 +14,12 @@ import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.apache.commons.io.IOUtils;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.dg.gocd.jenkins.task.TaskConfig.*;
 import static com.dg.gocd.utiils.GoPluginApiUtils.*;
@@ -73,7 +75,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         Map<String, String> errors = new HashMap<>();
         Map request = fromJSON(requestMessage.requestBody(), Map.class);
 
-        String paramsValue = getValueOrDefault2(request, PARAMS_PROPERTY);
+        String paramsValue = getValueOrEmpty(request, PARAMS_PROPERTY);
         if (paramsValue ==null || !PARAMS_PATTERN.matcher(paramsValue).matches()) {
             errors.put(PARAMS_PROPERTY, "Params syntax is <PARAM>=<VALUE>, with COMMA or NEWLINE delimiter");
         }
@@ -84,8 +86,8 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     private GoPluginApiResponse handleTaskExecution(GoPluginApiRequest requestMessage) {
         try {
             Map request = fromJSON(requestMessage.requestBody(), Map.class);
-            TaskConfig taskConfig = new TaskConfig((Map) request.get("config"));
-            TaskContext taskContext = new TaskContext((Map) request.get("context"));
+            TaskConfig taskConfig = createTaskConfig((Map) request.get("config"));
+            TaskContext taskContext = createTaskContext((Map) request.get("context"));
 
             TaskResult taskResult = taskExecutorFactory.getTaskExecutor().execute(taskConfig, taskContext);
             return taskResult.isSuccess()
@@ -96,6 +98,24 @@ public class JenkinsPlugin extends AbstractGoPlugin {
             logger.error(errorMessage, e);
             return errorResponse(singletonMap("exception", errorMessage));
         }
+    }
+
+    TaskContext createTaskContext(Map context) {
+        return new TaskContext(
+            (Map) context.get("environmentVariables"),
+            (String) context.get("workingDirectory")
+        );
+    }
+
+    TaskConfig createTaskConfig(Map config) {
+        return new TaskConfig(
+                getValueOrEmpty(config, URL_PROPERTY),
+                getValueOrEmpty(config, JOB_PROPERTY),
+                getValueOrEmpty(config, USERNAME_PROPERTY),
+                getValueOrEmpty(config, PASSWORD_PROPERTY),
+                Arrays.stream(getValueOrEmpty(config, PARAMS_PROPERTY).split("\\r?\\n"))
+                    .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
+        );
     }
 
     private GoPluginApiResponse handleTaskView() {

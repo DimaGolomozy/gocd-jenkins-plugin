@@ -1,10 +1,6 @@
 package com.dg.gocd.jenkins.task;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import static com.dg.gocd.utiils.GoPluginApiUtils.getValueOrDefault;
 
 /**
  * @author dima.golomozy
@@ -22,18 +18,7 @@ public class TaskConfig {
     private final String password;
     private final Map<String, String> params;
 
-    public TaskConfig(Map config) {
-        this(
-            getValueOrDefault(config, URL_PROPERTY, "value"),
-            getValueOrDefault(config, JOB_PROPERTY, "value"),
-            getValueOrDefault(config, USERNAME_PROPERTY, "value"),
-            getValueOrDefault(config, PASSWORD_PROPERTY, "value"),
-            Arrays.stream(((String) getValueOrDefault(config, PARAMS_PROPERTY, "value")).split("\\r?\\n"))
-                .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
-        );
-    }
-
-    TaskConfig(String url, String job, String username, String password, Map<String, String> params) {
+    public TaskConfig(String url, String job, String username, String password, Map<String, String> params) {
         this.url = url;
         this.job = job;
         this.username = username;
