@@ -100,14 +100,14 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         }
     }
 
-    TaskContext createTaskContext(Map context) {
+    private TaskContext createTaskContext(Map context) {
         return new TaskContext(
             (Map) context.get("environmentVariables"),
             (String) context.get("workingDirectory")
         );
     }
 
-    TaskConfig createTaskConfig(Map config) {
+    private TaskConfig createTaskConfig(Map config) {
         return new TaskConfig(
                 getValueOrEmpty(config, URL_PROPERTY),
                 getValueOrEmpty(config, JOB_PROPERTY),

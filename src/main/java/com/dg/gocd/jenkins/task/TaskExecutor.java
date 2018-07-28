@@ -31,6 +31,7 @@ public class TaskExecutor {
 
     public TaskResult execute(TaskConfig taskConfig, TaskContext taskContext) {
         console.printLine("Executing request to url [" + taskConfig.getUrl() + "] job ["  + taskConfig.getJob() + "]");
+        console.printEnvironment(taskConfig.getParams());
 
         try (JenkinsServer jenkinsServer = jenkinsServerFactory.getJenkinsServer(new URI(taskConfig.getUrl()), taskConfig.getUsername(), taskConfig.getPassword())) {
             return exec(jenkinsServer, taskConfig, taskContext);
