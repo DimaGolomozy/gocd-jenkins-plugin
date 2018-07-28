@@ -24,7 +24,7 @@
     },
     "params": {
       "secure": false,
-      "value": "bla=123\r\nsemek=45545",
+      "value": "bla=${FIRST_ENV}\r\nfoo=$SECOND_ENV,boo=123\nfofo=456",
       "required": false
     },
     "url": {
