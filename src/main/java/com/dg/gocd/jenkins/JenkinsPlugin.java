@@ -33,7 +33,7 @@ import static java.util.Collections.singletonMap;
 @Extension
 public class JenkinsPlugin extends AbstractGoPlugin {
     private static final Logger logger = Logger.getLoggerFor(JenkinsPlugin.class);
-    private static final Pattern PARAMS_PATTERN = Pattern.compile("\\w+=(\\$(\\{\\w+}|\\w+)|\\w+)([,(\\r?\\n)]\\w+=(\\$(\\{\\w+}|\\w+)|\\w+))*");
+    private static final Pattern PARAMS_PATTERN = Pattern.compile("\\w+=(\\$(\\{\\w+}|\\w+)|\\w+)([,\\n]\\w+=(\\$(\\{\\w+}|\\w+)|\\w+))*");
 
     private final TaskExecutorFactory taskExecutorFactory;
 
@@ -76,7 +76,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         Map<String, String> errors = new HashMap<>();
         Map request = fromJSON(requestMessage.requestBody(), Map.class);
 
-        String paramsValue = getValueOrEmpty(request, PARAMS_PROPERTY);
+        String paramsValue = getParamValue(request);
         if (!paramsValue.isEmpty() && !PARAMS_PATTERN.matcher(paramsValue).matches()) {
             errors.put(PARAMS_PROPERTY, "Params syntax is <PARAM>=<VALUE>, with COMMA or NEWLINE delimiter");
         }
@@ -107,15 +107,19 @@ public class JenkinsPlugin extends AbstractGoPlugin {
     }
 
     TaskConfig createTaskConfig(Map config, Map<String, String> environmentVariables) {
-        String params = getValueOrEmpty(config, PARAMS_PROPERTY);
+        String params = getParamValue(config);
         return new TaskConfig(
             replaceWithEnv(getValueOrEmpty(config, URL_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, JOB_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, USERNAME_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, PASSWORD_PROPERTY), environmentVariables),
-            params.isEmpty() ? emptyMap() : Arrays.stream(replaceWithEnv(params, environmentVariables).split(",|\\r?\\n"))
+            params.isEmpty() ? emptyMap() : Arrays.stream(replaceWithEnv(params, environmentVariables).split("[,\\n]"))
                 .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
         );
+    }
+
+    private String getParamValue(Map request) {
+        return getValueOrEmpty(request, PARAMS_PROPERTY).replaceAll("\\r", "");
     }
 
     private GoPluginApiResponse handleTaskView() {

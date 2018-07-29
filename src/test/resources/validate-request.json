@@ -11,7 +11,7 @@
   },
   "params": {
     "secure": false,
-    "value": "var=${GO_FROM_REVISION_TEST}\nvar2=blabla,var3=lol",
+    "value": "var=${GO_FROM_REVISION_TEST}\nvar2=blabla,var3=lol\r\nvar4=bla",
     "required": false
   },
   "url": {
