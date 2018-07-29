@@ -91,9 +91,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
             TaskConfig taskConfig = createTaskConfig((Map) request.get("config"), taskContext.getEnvironmentVariables());
 
             TaskResult taskResult = taskExecutorFactory.getTaskExecutor().execute(taskConfig, taskContext);
-            return taskResult.isSuccess()
-                ? successResponse(taskResult.toMap())
-                : errorResponse(taskResult.toMap());
+            return successResponse(taskResult.toMap());
         } catch (Exception e) {
             String errorMessage = "Failed task execution: " + e.getMessage();
             logger.error(errorMessage, e);

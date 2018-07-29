@@ -18,6 +18,7 @@ import java.util.Map;
 import static com.dg.gocd.RequestName.*;
 import static com.dg.gocd.TestUtils.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -63,10 +64,13 @@ public class JenkinsPluginTest {
 
     @Test
     public void testTaskExecuteRequestError() throws Exception {
-        setExecutorResult(false);
+        setExecutorResult(false, new RuntimeException());
 
         GoPluginApiResponse actual = onTest.handle(newRequest(TASK_EXECUTE, getResource("task-execute-request.json")));
-        assertErrorResponse(actual);
+        assertSuccessResponse(actual);
+
+        Object exception = gson.fromJson(actual.responseBody(), Map.class).get("exception");
+        assertNotNull(exception);
     }
 
     @Test
@@ -116,7 +120,10 @@ public class JenkinsPluginTest {
     }
 
     private void setExecutorResult(boolean success) {
-        when(taskExecutor.execute(any(), any())).thenReturn(new TaskResult(success, ""));
+        setExecutorResult(success, null);
+    }
 
+    private void setExecutorResult(boolean success, Exception exception) {
+        when(taskExecutor.execute(any(), any())).thenReturn(new TaskResult(success, "", exception));
     }
 }
