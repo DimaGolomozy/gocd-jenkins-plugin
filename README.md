@@ -1,6 +1,6 @@
 # gocd-jenkins-plugin [![GitHub release](https://img.shields.io/github/release/DimaGolomozy/gocd-jenkins-plugin.svg)]()
 
-Go Taks plugin to run Jenkins jobs.
+[GoCD](https://www.gocd.org/) Taks plugin to run Jenkins jobs.
 
 Usage
 -------------
