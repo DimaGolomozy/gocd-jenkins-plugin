@@ -17,9 +17,7 @@ import java.util.Map;
 
 import static com.dg.gocd.RequestName.*;
 import static com.dg.gocd.TestUtils.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -97,6 +95,7 @@ public class JenkinsPluginTest {
         assertEquals("job1", taskConfig.getJob());
         assertEquals("user1", taskConfig.getUsername());
         assertEquals("password1", taskConfig.getPassword());
+        assertTrue(taskConfig.isPrintLog());
         assertEquals("first", taskConfig.getParams().get("bla"));
         assertEquals("second", taskConfig.getParams().get("foo"));
         assertEquals("123", taskConfig.getParams().get("boo"));
@@ -116,6 +115,7 @@ public class JenkinsPluginTest {
         assertEquals("job1", taskConfig.getJob());
         assertEquals("user1", taskConfig.getUsername());
         assertEquals("password1", taskConfig.getPassword());
+        assertFalse(taskConfig.isPrintLog());
         assertTrue(taskConfig.getParams().isEmpty());
     }
 

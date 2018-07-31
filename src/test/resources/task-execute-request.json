@@ -27,6 +27,11 @@
       "value": "bla=${FIRST_ENV}\r\nfoo=$SECOND_ENV,boo=123\nfofo=456",
       "required": false
     },
+    "printlog": {
+      "secure": false,
+      "value": "true",
+      "required": false
+    },
     "url": {
       "secure": false,
       "value": "http://www.HelloWorld.com",

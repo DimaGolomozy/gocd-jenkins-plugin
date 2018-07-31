@@ -22,6 +22,11 @@
       "value": "password1",
       "required": true
     },
+    "printlog": {
+      "secure": false,
+      "value": "false",
+      "required": false
+    },
     "params": {
       "secure": false,
       "required": false

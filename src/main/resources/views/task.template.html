@@ -23,3 +23,11 @@
     <textarea ng-model="params" style="width:500px;"></textarea>
     <span class="form_error" ng-show="GOINPUTNAME[params].$error.server">{{ GOINPUTNAME[params].$error.server }}</span>
 </div>
+<div class="form_item_block">
+    <label>Additional options:</label>
+    <div class="checkbox_row">
+        <input id="printlog2" type="checkbox" ng-model="printlog2" ng-init="printlog2 = printlog" ng-change="printlog = printlog2" ng-true-value="true" ng-false-value="false">
+        <input id="printlog" type="hidden" ng-model="printlog" value="{{printlog}}">
+        <label for="printlog">Print jenkins log</label>
+    </div>
+</div>
