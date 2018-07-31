@@ -69,6 +69,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
         configMap.put(USERNAME_PROPERTY, createField(USERNAME_PROPERTY, true, false, "2"));
         configMap.put(PASSWORD_PROPERTY, createField(PASSWORD_PROPERTY, false, true, "3"));
         configMap.put(PARAMS_PROPERTY, createField(PARAMS_PROPERTY, false, false, "4"));
+        configMap.put(PRINT_LOG_PROPERTY, createField(PRINT_LOG_PROPERTY, false, false, "5"));
         return successResponse(configMap);
     }
 
@@ -113,6 +114,7 @@ public class JenkinsPlugin extends AbstractGoPlugin {
             replaceWithEnv(getValueOrEmpty(config, JOB_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, USERNAME_PROPERTY), environmentVariables),
             replaceWithEnv(getValueOrEmpty(config, PASSWORD_PROPERTY), environmentVariables),
+            Boolean.parseBoolean(getValueOrEmpty(config, PRINT_LOG_PROPERTY)),
             params.isEmpty() ? emptyMap() : Arrays.stream(replaceWithEnv(params, environmentVariables).split("[,\\n]"))
                 .map(s -> s.split("=")).collect(Collectors.toMap(s -> s[0].trim(), s -> s[1].trim()))
         );
