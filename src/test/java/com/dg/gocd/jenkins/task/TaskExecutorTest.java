@@ -28,7 +28,7 @@ public class TaskExecutorTest {
     private static final String PASSWORD = "password";
     private static final String JOB_NAME = "jobjobjob";
     private static final TaskContext TASK_CONTEXT = new TaskContext(emptyMap(), "");
-    private static final TaskConfig TASK_CONFIG = new TaskConfig(JENKINS_URL, JOB_NAME, USERNAME, PASSWORD, emptyMap());
+    private static final TaskConfig TASK_CONFIG = new TaskConfig(JENKINS_URL, JOB_NAME, USERNAME, PASSWORD, false, emptyMap());
 
     private final JenkinsServer jenkinsServer = mock(JenkinsServer.class);
     private final JobConsoleLogger console = mock(JobConsoleLogger.class);
@@ -43,7 +43,7 @@ public class TaskExecutorTest {
 
     @Test
     public void executeWithBadURL() throws Exception {
-        TaskConfig taskConfig = new TaskConfig("oh no", "", "", "", emptyMap());
+        TaskConfig taskConfig = new TaskConfig("oh no", "", "", "", false, emptyMap());
 
         TaskResult actualResult = onTest.execute(taskConfig, TASK_CONTEXT);
         assertFailedResult(actualResult);
